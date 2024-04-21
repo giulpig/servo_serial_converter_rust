@@ -1,0 +1,48 @@
+[package]
+name = "servo-test"
+version = "0.1.0"
+authors = ["gabriele-0201 <gabriele.miotti2@gmail.com>"]
+edition = "2021"
+license = "MIT OR Apache-2.0"
+
+[[bin]]
+name = "servo-test"
+test = false
+bench = false
+
+[dependencies]
+panic-halt = "0.2.0"
+ufmt = "0.2.0"
+nb = "1.1.0"
+embedded-hal = "1.0"
+
+[dependencies.embedded-hal-v0]
+version = "0.2.3"
+package = "embedded-hal"
+
+[dependencies.arduino-hal]
+git = "https://github.com/rahix/avr-hal"
+rev = "7f7d0a536d8045ed8f254fe75d9aa0d646c7a750"
+features = ["arduino-nano"]
+
+[dependencies.atmega-hal]
+git = "https://github.com/rahix/avr-hal"
+rev = "7f7d0a536d8045ed8f254fe75d9aa0d646c7a750"
+features = ["atmega328p"]
+
+[dependencies.avr-device]
+version = "0.5.1"
+features = ["rt"]
+
+# Configure the build for minimal size - AVRs have very little program memory
+[profile.dev]
+panic = "abort"
+lto = true
+opt-level = "s"
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+debug = true
+lto = true
+opt-level = "s"
